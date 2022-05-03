@@ -48,14 +48,14 @@ FUNCTION_RETURN verify_signature(const std::string& stringToVerify, const std::s
 	initialize();
 
 	BIO* bio = BIO_new_mem_buf((void*)(pubKey), sizeof(pubKey));
-	RSA* rsa = d2i_RSAPublicKey_bio(bio, NULL);
+	DSA* rsa = d2i_DSA_PUBKEY_bio(bio, NULL);
 	BIO_free(bio);
 	if (rsa == NULL) {
 		LOG_ERROR("Error reading public key");
 		return FUNC_RET_ERROR;
 	}
 	EVP_PKEY* pkey = EVP_PKEY_new();
-	EVP_PKEY_assign_RSA(pkey, rsa);
+	EVP_PKEY_assign_DSA(pkey, rsa);
 
 	/*BIO* bo = BIO_new(BIO_s_mem());
 	 BIO_write(bo, pubKey, strlen(pubKey));
